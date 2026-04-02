@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health &amp; Fitness — LearnSomething</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F0F0D;--bg2:#161614;--bg3:#1D1D1A;--bg4:#232320;
+  --gold:#B8963E;--gold-hi:#D4AF60;--gold-lo:rgba(184,150,62,.10);
+  --ivory:#F0EBE1;--iv2:#BEB6A8;--iv3:#6E6860;
+  --line:rgba(240,235,225,.06);--lineG:rgba(184,150,62,.20);
+  --green:#4A7C59;--green-lo:rgba(74,124,89,.12);
+  --amber:#8B6914;--amber-lo:rgba(139,105,20,.12);
+  --red:#7A3535;--red-lo:rgba(122,53,53,.12);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--iv2);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 56px;background:rgba(15,15,13,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--line);}
+.logo{display:flex;align-items:center;gap:14px;text-decoration:none;}
+.logo-box{width:34px;height:34px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;position:relative;}
+.logo-box::before{content:'';position:absolute;inset:4px;border:1px solid rgba(184,150,62,.25);}
+.logo-box svg{width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;}
+.logo-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:400;letter-spacing:2.5px;text-transform:uppercase;color:var(--ivory);}
+.nav-back{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv3);text-decoration:none;transition:color .25s;display:flex;align-items:center;gap:8px;}
+.nav-back:hover{color:var(--gold);}
+.nav-back svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;}
+
+/* PAGE HEADER */
+.page-header{padding:120px 56px 80px;border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
+.page-header-bg{position:absolute;inset:0;pointer-events:none;}
+.page-header-bg-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(184,150,62,.05) 0%,transparent 65%);right:-100px;top:50%;transform:translateY(-50%);}
+.page-header-bg-vl{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--lineG) 25%,var(--lineG) 75%,transparent);}
+.page-header-bg-vl:nth-child(2){left:56px;}
+
+.page-header-inner{position:relative;z-index:2;max-width:680px;}
+.page-kicker{display:inline-flex;align-items:center;gap:14px;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;}
+.page-kicker-line{width:28px;height:1px;background:var(--gold);}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,80px);font-weight:400;line-height:.95;color:var(--ivory);letter-spacing:-1px;margin-bottom:24px;}
+.page-title em{font-style:italic;color:var(--gold);}
+.page-desc{font-size:14px;line-height:1.9;color:var(--iv3);max-width:500px;}
+
+.stat-row{display:flex;gap:0;margin-top:48px;border:1px solid var(--line);}
+.stat-item{flex:1;padding:24px 28px;border-right:1px solid var(--line);text-align:left;}
+.stat-item:last-child{border-right:none;}
+.stat-val{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold);line-height:1;}
+.stat-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--iv3);margin-top:6px;}
+
+/* TABS */
+.tabs-bar{position:sticky;top:64px;z-index:100;background:rgba(15,15,13,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);display:flex;overflow-x:auto;}
+.tab-btn{flex-shrink:0;padding:18px 32px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv3);background:none;border:none;cursor:pointer;transition:color .25s;border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;}
+.tab-btn.on{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* CONTENT */
+.tab-panel{display:none;padding:64px 56px;max-width:960px;margin:0 auto;}
+.tab-panel.on{display:block;}
+
+/* SECTION LABEL */
+.s-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,40px);font-weight:400;color:var(--ivory);margin-bottom:40px;line-height:1.1;}
+.s-title em{font-style:italic;color:var(--gold);}
+
+/* ALERT */
+.alert{display:flex;gap:20px;padding:20px 24px;background:var(--gold-lo);border:1px solid var(--lineG);margin-bottom:48px;}
+.alert-icon{width:20px;height:20px;flex-shrink:0;margin-top:2px;color:var(--gold);}
+.alert-icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;}
+.alert-text{font-size:13px;line-height:1.8;color:var(--iv2);}
+.alert-text strong{color:var(--gold);font-weight:500;}
+
+/* PHASE CARDS */
+.phase{margin-bottom:48px;border:1px solid var(--line);}
+.phase-head{padding:28px 32px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:20px;background:var(--bg2);}
+.phase-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border:1px solid;}
+.phase-badge.g{color:#6BAE80;border-color:rgba(107,174,128,.4);background:rgba(107,174,128,.08);}
+.phase-badge.a{color:#D4AF60;border-color:rgba(212,175,96,.4);background:rgba(212,175,96,.08);}
+.phase-badge.r{color:#C27A7A;border-color:rgba(194,122,122,.4);background:rgba(194,122,122,.08);}
+.phase-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;color:var(--ivory);}
+.phase-sub{font-size:11px;letter-spacing:1px;color:var(--iv3);margin-top:2px;}
+
+/* EXERCISE ROWS */
+.ex-list{background:var(--bg2);}
+.ex-row{display:grid;grid-template-columns:48px 1fr auto;gap:0;align-items:stretch;border-bottom:1px solid var(--line);}
+.ex-row:last-child{border-bottom:none;}
+.ex-row:hover .ex-body{background:var(--bg3);}
+.ex-row:hover .ex-meta{background:var(--bg3);}
+.ex-icon-cell{display:flex;align-items:center;justify-content:center;background:var(--bg3);border-right:1px solid var(--line);padding:0 12px;}
+.ex-icon-cell svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round;}
+.ex-body{padding:18px 24px;transition:background .2s;}
+.ex-name{font-size:14px;font-weight:500;color:var(--ivory);margin-bottom:4px;}
+.ex-detail{font-size:12px;color:var(--iv3);line-height:1.6;}
+.ex-meta{padding:18px 24px;text-align:right;border-left:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;min-width:90px;transition:background .2s;}
+.ex-sets{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);line-height:1;}
+.ex-sets-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--iv3);margin-top:3px;}
+
+/* MEAL CARDS */
+.meal{border:1px solid var(--line);margin-bottom:16px;background:var(--bg2);transition:border-color .25s;}
+.meal:hover{border-color:var(--lineG);}
+.meal-head{padding:16px 24px 0;display:flex;align-items:center;gap:12px;}
+.meal-time-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+.meal-divider{flex:1;height:1px;background:var(--line);}
+.meal-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:400;color:var(--ivory);padding:10px 24px 0;}
+.meal-body{padding:12px 24px 20px;}
+.meal-items{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.meal-chip{font-size:12px;color:var(--iv2);background:var(--bg3);padding:5px 14px;border:1px solid var(--line);}
+.meal-cal{font-size:11px;color:var(--iv3);display:flex;gap:16px;flex-wrap:wrap;}
+.meal-cal span{color:var(--gold);font-weight:500;}
+
+/* AVOID */
+.avoid-row{display:flex;gap:0;align-items:stretch;border-bottom:1px solid var(--line);}
+.avoid-row:last-child{border-bottom:none;}
+.avoid-x{width:48px;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--line);background:var(--bg3);}
+.avoid-x svg{width:16px;height:16px;stroke:#C27A7A;fill:none;stroke-width:1.5;stroke-linecap:round;}
+.avoid-body{padding:16px 22px;}
+.avoid-name{font-size:13px;font-weight:500;color:var(--ivory);margin-bottom:3px;}
+.avoid-detail{font-size:12px;color:var(--iv3);}
+
+/* WATER */
+.water-card{border:1px solid var(--line);background:var(--bg2);padding:28px 32px;margin-top:24px;}
+.water-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px;}
+.water-label{font-size:12px;letter-spacing:1px;color:var(--iv2);}
+.water-val{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);}
+.water-bar{height:2px;background:rgba(255,255,255,.06);}
+.water-fill{height:100%;background:linear-gradient(to right,var(--gold),var(--gold-hi));width:85%;}
+.water-note{font-size:12px;color:var(--iv3);margin-top:12px;line-height:1.7;}
+
+/* WEEK GRID */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:40px;}
+.day{padding:16px 8px;text-align:center;border:1px solid var(--line);}
+.day.work{border-color:var(--lineG);background:var(--gold-lo);}
+.day-name{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--iv3);margin-bottom:8px;}
+.day-icon{width:20px;height:20px;margin:0 auto 4px;color:var(--gold);}
+.day-icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.3;stroke-linecap:round;}
+.day-icon.rest-icon{color:var(--iv3);}
+.day-tag{font-size:9px;letter-spacing:1px;color:var(--iv3);}
+.day.work .day-tag{color:var(--gold);}
+
+/* TIMELINE */
+.timeline{border-left:1px solid var(--lineG);padding-left:32px;margin-left:8px;}
+.tl-item{position:relative;padding-bottom:32px;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-dot{position:absolute;left:-40px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--gold);}
+.tl-time{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.tl-name{font-size:14px;font-weight:500;color:var(--ivory);margin-bottom:3px;}
+.tl-detail{font-size:12px;color:var(--iv3);}
+
+/* PROGRESS */
+.progress-block{margin-bottom:24px;}
+.progress-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px;}
+.progress-top span:first-child{color:var(--iv2);}
+.progress-bar{height:2px;background:rgba(255,255,255,.06);}
+.progress-fill{height:100%;transition:width 1.2s ease;}
+.p1{background:linear-gradient(to right,#6BAE80,#92C7A5);}
+.p2{background:linear-gradient(to right,#D4AF60,#E8C97A);}
+.p3{background:linear-gradient(to right,var(--gold),var(--gold-hi));}
+
+/* RULES */
+.rule-item{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);align-items:flex-start;}
+.rule-item:last-child{border-bottom:none;}
+.rule-num{width:28px;height:28px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--gold);flex-shrink:0;}
+.rule-text{font-size:13px;line-height:1.8;color:var(--iv2);}
+.rule-text strong{color:var(--ivory);font-weight:500;}
+
+/* SUPERFOODS */
+.sf-row{display:grid;grid-template-columns:48px 1fr auto;gap:0;border-bottom:1px solid var(--line);}
+.sf-row:last-child{border-bottom:none;}
+.sf-icon{display:flex;align-items:center;justify-content:center;background:var(--bg3);border-right:1px solid var(--line);}
+.sf-icon svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.25;stroke-linecap:round;}
+.sf-body{padding:16px 22px;}
+.sf-name{font-size:13px;font-weight:500;color:var(--ivory);margin-bottom:3px;}
+.sf-detail{font-size:12px;color:var(--iv3);}
+.sf-price{padding:16px 22px;font-family:'Playfair Display',serif;font-size:14px;color:var(--gold);display:flex;align-items:center;border-left:1px solid var(--line);}
+
+/* TIPS */
+.tip-item{display:flex;gap:16px;padding:16px 20px;margin-bottom:10px;border-left:2px solid;}
+.tip-item.ok{border-color:#6BAE80;background:rgba(107,174,128,.05);}
+.tip-item.warn{border-color:#C27A7A;background:rgba(194,122,122,.05);}
+.tip-icon{width:18px;height:18px;flex-shrink:0;margin-top:1px;}
+.tip-icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;}
+.tip-item.ok .tip-icon{color:#6BAE80;}
+.tip-item.warn .tip-icon{color:#C27A7A;}
+.tip-text{font-size:13px;line-height:1.7;color:var(--iv2);}
+
+/* CARD WRAPPER */
+.card-wrap{border:1px solid var(--line);background:var(--bg2);margin-bottom:32px;}
+.card-wrap-head{padding:20px 28px;border-bottom:1px solid var(--line);}
+.card-wrap-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;color:var(--ivory);}
+.card-wrap-sub{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--iv3);margin-top:3px;}
+
+/* FOOTER */
+footer{padding:36px 56px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.foot-brand{font-family:'Playfair Display',serif;font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.foot-note{font-size:11px;letter-spacing:.5px;color:var(--iv3);}
+
+@media(max-width:768px){
+  nav{padding:0 20px;} .page-header{padding:96px 20px 56px;} .tab-panel{padding:40px 20px;} footer{padding:28px 20px;}
+  .stat-row{flex-wrap:wrap;} .stat-item{min-width:50%;}
+  .ex-row{grid-template-columns:40px 1fr;}
+  .ex-meta{display:none;}
+  .week-grid{grid-template-columns:repeat(4,1fr);}
+  .sf-row{grid-template-columns:40px 1fr;}
+  .sf-price{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-box"><svg viewBox="0 0 13 13"><path d="M2 6.5h9M6.5 2l4.5 4.5L6.5 11"/></svg></div>
+    <span class="logo-name">LearnSomething</span>
+  </a>
+  <a href="index.html" class="nav-back">
+    <svg viewBox="0 0 13 13"><path d="M11 6.5H2M6.5 2 2 6.5l4.5 4.5"/></svg>
+    Home
+  </a>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="page-header-bg">
+    <div class="page-header-bg-glow"></div>
+    <div class="page-header-bg-vl"></div>
+  </div>
+  <div class="page-header-inner">
+    <div class="page-kicker"><span class="page-kicker-line"></span>Chapter 01</div>
+    <h1 class="page-title">Health &amp;<br><em>Fitness</em></h1>
+    <p class="page-desc">A 90-day transformation plan built for Tamil Nadu. Zero equipment, no gym membership, real local food — and a sustainable path forward.</p>
+    <div class="stat-row">
+      <div class="stat-item"><div class="stat-val">90</div><div class="stat-label">Day Plan</div></div>
+      <div class="stat-item"><div class="stat-val">3</div><div class="stat-label">Phases</div></div>
+      <div class="stat-item"><div class="stat-val">0 ₹</div><div class="stat-label">Equipment</div></div>
+      <div class="stat-item"><div class="stat-val">~35kg</div><div class="stat-label">Target Loss</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs-bar">
+  <button class="tab-btn on" onclick="switchTab('workout',this)">Workout Plan</button>
+  <button class="tab-btn" onclick="switchTab('diet',this)">Diet Plan</button>
+  <button class="tab-btn" onclick="switchTab('schedule',this)">Schedule</button>
+  <button class="tab-btn" onclick="switchTab('rules',this)">Rules &amp; Tips</button>
+</div>
+
+<!-- ══════════════ WORKOUT ══════════════ -->
+<div id="workout" class="tab-panel on">
+  <div class="s-label">Training</div>
+  <h2 class="s-title">Three phases,<br><em>one transformation</em></h2>
+
+  <div class="alert">
+    <div class="alert-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/><line x1="10" y1="6" x2="10" y2="10"/><circle cx="10" cy="14" r=".5" fill="currentColor"/></svg></div>
+    <div class="alert-text"><strong>Back care:</strong> All exercises are back-safe. Avoid sudden forward bends. If pain increases, switch the exercise — never stop entirely. Glute bridges and bird-dog in Phase 2 will strengthen your lower back over time.</div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-badge g">Phase 1 · Days 1–30</div>
+      <div>
+        <div class="phase-title">Foundation</div>
+        <div class="phase-sub">5–6 days/week &nbsp;·&nbsp; 20–30 mins &nbsp;·&nbsp; Low intensity</div>
+      </div>
+    </div>
+    <div class="ex-list">
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="10" cy="5" r="2"/><path d="M10 7v6M7 9l3 4 3-4M8 13l-2 4M12 13l2 4"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Brisk Walking</div><div class="ex-detail">Indoors or terrace. Begin at 10 mins, build to 20 mins by week 4.</div></div>
+        <div class="ex-meta"><div class="ex-sets">Daily</div><div class="ex-sets-label">1× session</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="10" cy="4" r="2"/><path d="M6 8h8M6 8c-1 2-1 4 0 6M14 8c1 2 1 4 0 6"/><line x1="6" y1="14" x2="14" y2="14"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Wall Push-Ups</div><div class="ex-detail">Hands flat on wall, body angled forward. Easy on lower back.</div></div>
+        <div class="ex-meta"><div class="ex-sets">3 × 10</div><div class="ex-sets-label">sets · reps</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="10" cy="4" r="2"/><path d="M10 6v4l-3 4h6l-3-4"/><path d="M7 14v4M13 14v4"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Chair Sit-to-Stand</div><div class="ex-detail">Sit on chair edge, stand slowly, sit back. Trains legs without knee stress.</div></div>
+        <div class="ex-meta"><div class="ex-sets">3 × 10</div><div class="ex-sets-label">sets · reps</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="10" cy="4" r="2"/><line x1="10" y1="6" x2="10" y2="14"/><path d="M7 14l3 4 3-4"/><path d="M8 9l-2 2M12 9l2 2"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Standing Calf Raises</div><div class="ex-detail">Hold wall for balance. Rise onto toes, lower slowly. Improves circulation.</div></div>
+        <div class="ex-meta"><div class="ex-sets">3 × 15</div><div class="ex-sets-label">sets · reps</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><path d="M3 10h14M3 10l4-4M17 10l-4-4M3 10l4 4M17 10l-4 4"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Dead Bug</div><div class="ex-detail">Lie on back, extend opposite arm and leg slowly. No arch in lower back. Core + spine safe.</div></div>
+        <div class="ex-meta"><div class="ex-sets">3 × 8</div><div class="ex-sets-label">each side</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M10 6v8M6 10h8"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Diaphragmatic Breathing</div><div class="ex-detail">Lie flat, breathe deep into belly. Activates parasympathetic system, eases back tension.</div></div>
+        <div class="ex-meta"><div class="ex-sets">5 min</div><div class="ex-sets-label">cooldown</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-badge a">Phase 2 · Days 31–60</div>
+      <div>
+        <div class="phase-title">Strength &amp; Burn</div>
+        <div class="phase-sub">5 days/week &nbsp;·&nbsp; 30–40 mins &nbsp;·&nbsp; Moderate intensity</div>
+      </div>
+    </div>
+    <div class="ex-list">
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="10" cy="4" r="2"/><path d="M10 6v6M7 9l3 3 3-3M8 12l-2 5M12 12l2 5"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Interval Walk / March in Place</div><div class="ex-detail">20–25 mins total: 1 min fast, 2 min normal pace. Alternating intervals.</div></div>
+        <div class="ex-meta"><div class="ex-sets">Daily</div><div class="ex-sets-label">warm-up</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="10" cy="4" r="2"/><path d="M7 6.5L4 14M13 6.5L16 14M7 6.5h6"/><line x1="4" y1="14" x2="16" y2="14"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Incline Push-Ups</div><div class="ex-detail">Hands on bed or sofa edge. Full push-up motion with reduced body weight.</div></div>
+        <div class="ex-meta"><div class="ex-sets">4 × 12</div><div class="ex-sets-label">sets · reps</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="10" cy="4" r="2"/><path d="M10 6v4M6 10l4 2 4-2M6 10l1 7M14 10l-1 7"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Bodyweight Squats</div><div class="ex-detail">Feet shoulder-width, lower to 90°, keep back upright. Control the descent.</div></div>
+        <div class="ex-meta"><div class="ex-sets">4 × 15</div><div class="ex-sets-label">sets · reps</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="7" cy="4" r="2"/><path d="M7 6v5l6-3v5"/><circle cx="13" cy="13" r="2"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Step-Ups on Stairs</div><div class="ex-detail">Step up and down alternating legs. Excellent cardio, burns significant calories.</div></div>
+        <div class="ex-meta"><div class="ex-sets">3 × 20</div><div class="ex-sets-label">each leg</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><path d="M3 10h14M3 10c0-2 1-4 3-4h8c2 0 3 2 3 4"/><path d="M5 10v4M15 10v4"/><line x1="5" y1="14" x2="15" y2="14"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Glute Bridge</div><div class="ex-detail">Lie on back, feet flat. Push hips up, hold 2 sec, lower slowly. Strengthens lower back safely.</div></div>
+        <div class="ex-meta"><div class="ex-sets">4 × 15</div><div class="ex-sets-label">sets · reps</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="6" cy="6" r="2"/><path d="M6 8v4M4 10l-2 4M8 10l2 4M6 12l3 4"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Bird-Dog</div><div class="ex-detail">On all fours, extend opposite arm and leg simultaneously. Core and back rehabilitation.</div></div>
+        <div class="ex-meta"><div class="ex-sets">3 × 10</div><div class="ex-sets-label">each side</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-badge r">Phase 3 · Days 61–90</div>
+      <div>
+        <div class="phase-title">Full Burn</div>
+        <div class="phase-sub">5 days/week &nbsp;·&nbsp; 40–50 mins &nbsp;·&nbsp; High-moderate intensity</div>
+      </div>
+    </div>
+    <div class="ex-list">
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><path d="M3 14l4-8 3 4 2-3 5 7"/></svg></div>
+        <div class="ex-body"><div class="ex-name">HIIT Walk / March</div><div class="ex-detail">2 mins normal pace → 1 min maximum effort march. Repeat 8 cycles = 24 mins total.</div></div>
+        <div class="ex-meta"><div class="ex-sets">24 min</div><div class="ex-sets-label">cardio</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="10" cy="4" r="2"/><path d="M7 6.5L4 14M13 6.5L16 14M7 6.5h6"/><line x1="4" y1="14" x2="16" y2="14"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Full Push-Ups</div><div class="ex-detail">Standard or knee variation. Full range of motion. Rest 60 sec between sets.</div></div>
+        <div class="ex-meta"><div class="ex-sets">4 × 15</div><div class="ex-sets-label">sets · reps</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><circle cx="10" cy="4" r="2"/><path d="M10 6v4M7 10l-3 7M13 10l3 7M7 10h6"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Reverse Lunges</div><div class="ex-detail">Step backward rather than forward — significantly easier on the knees at higher weight.</div></div>
+        <div class="ex-meta"><div class="ex-sets">4 × 12</div><div class="ex-sets-label">each leg</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><rect x="4" y="8" width="12" height="8" rx="1"/><line x1="4" y1="8" x2="16" y2="8"/><line x1="4" y1="4" x2="4" y2="8"/><line x1="16" y1="4" x2="16" y2="8"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Wall Sit</div><div class="ex-detail">Back flat on wall, thighs parallel to floor. Hold for duration. Build from 20 seconds upward.</div></div>
+        <div class="ex-meta"><div class="ex-sets">3 × 30s</div><div class="ex-sets-label">hold</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><path d="M2 12h16M2 12c0-2 2-3 4-3h8c2 0 4 1 4 3"/><circle cx="6" cy="9" r="1"/><circle cx="14" cy="9" r="1"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Forearm Plank</div><div class="ex-detail">Straight body line from head to heels. Build from 20 seconds to 60 seconds over 4 weeks.</div></div>
+        <div class="ex-meta"><div class="ex-sets">3 × 30s</div><div class="ex-sets-label">hold</div></div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-icon-cell"><svg viewBox="0 0 20 20"><path d="M2 10c2-3 6-6 8-6s6 3 8 6M4 13l12-6"/></svg></div>
+        <div class="ex-body"><div class="ex-name">Superman Hold</div><div class="ex-detail">Lie face down, lift chest and legs slightly off floor. Excellent lower back strengthener.</div></div>
+        <div class="ex-meta"><div class="ex-sets">3 × 10</div><div class="ex-sets-label">reps</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ DIET ══════════════ -->
+<div id="diet" class="tab-panel">
+  <div class="s-label">Nutrition</div>
+  <h2 class="s-title">Tamil Nadu diet,<br><em>reimagined for fat loss</em></h2>
+
+  <div class="alert">
+    <div class="alert-icon"><svg viewBox="0 0 20 20"><path d="M10 2l8 14H2L10 2z"/><line x1="10" y1="9" x2="10" y2="13"/><circle cx="10" cy="15.5" r=".5" fill="currentColor"/></svg></div>
+    <div class="alert-text"><strong>Daily target:</strong> 1800–2000 kcal. Eat 500–700 kcal below your burn. No starvation, no supplements — just the right portions of food you already know.</div>
+  </div>
+
+  <div class="meal">
+    <div class="meal-head"><div class="meal-time-label">07:00 — Early Morning</div><div class="meal-divider"></div></div>
+    <div class="meal-title">Kickstart</div>
+    <div class="meal-body">
+      <div class="meal-items">
+        <span class="meal-chip">1 glass warm water with lemon</span>
+        <span class="meal-chip">Or methi seeds water (overnight soaked)</span>
+      </div>
+      <div class="meal-cal">~<span>5 kcal</span> · Boosts metabolism · Aids digestion</div>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="meal-head"><div class="meal-time-label">08:00 — Breakfast · Option A</div><div class="meal-divider"></div></div>
+    <div class="meal-title">Idli + Sambar</div>
+    <div class="meal-body">
+      <div class="meal-items">
+        <span class="meal-chip">3 medium idlis — 120g total (each ~40g)</span>
+        <span class="meal-chip">Sambar — 200ml, loaded with vegetables</span>
+        <span class="meal-chip">Green chutney — 2 tbsp (30g max)</span>
+      </div>
+      <div class="meal-cal">~<span>320 kcal</span> · Protein 10g · Low fat · High satiety</div>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="meal-head"><div class="meal-time-label">08:00 — Breakfast · Option B</div><div class="meal-divider"></div></div>
+    <div class="meal-title">Ragi Koozh</div>
+    <div class="meal-body">
+      <div class="meal-items">
+        <span class="meal-chip">Ragi flour — 4 tbsp (40g)</span>
+        <span class="meal-chip">Buttermilk or water — 300ml</span>
+        <span class="meal-chip">Salt to taste + 1 small shallot</span>
+      </div>
+      <div class="meal-cal">~<span>200 kcal</span> · Best for weight loss · Keeps you full for 4+ hours</div>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="meal-head"><div class="meal-time-label">08:00 — Breakfast · Option C</div><div class="meal-divider"></div></div>
+    <div class="meal-title">Light Upma or Pongal</div>
+    <div class="meal-body">
+      <div class="meal-items">
+        <span class="meal-chip">Rava or oats — 50g (⅓ cup dry)</span>
+        <span class="meal-chip">Mixed vegetables — 100g</span>
+        <span class="meal-chip">Oil — 1 tsp maximum (5ml)</span>
+        <span class="meal-chip">Grated coconut — 1 tbsp only</span>
+      </div>
+      <div class="meal-cal">~<span>280 kcal</span> · Good fibre · Minimal oil is critical</div>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="meal-head"><div class="meal-time-label">11:00 — Mid-Morning</div><div class="meal-divider"></div></div>
+    <div class="meal-title">Light Snack</div>
+    <div class="meal-body">
+      <div class="meal-items">
+        <span class="meal-chip">1 medium banana — 120g</span>
+        <span class="meal-chip">Or unsalted peanuts — 30g</span>
+        <span class="meal-chip">Or plain buttermilk — 250ml, no sugar</span>
+      </div>
+      <div class="meal-cal">~<span>100–150 kcal</span> · Do not skip — prevents overeating at lunch</div>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="meal-head"><div class="meal-time-label">13:00 — Lunch</div><div class="meal-divider"></div></div>
+    <div class="meal-title">South Indian Thali — Controlled Portions</div>
+    <div class="meal-body">
+      <div class="meal-items">
+        <span class="meal-chip">Rice — 150g cooked (Weeks 1–4)</span>
+        <span class="meal-chip">Rice — 100g cooked (Weeks 5–8)</span>
+        <span class="meal-chip">Rice — 75g cooked (Weeks 9–13)</span>
+        <span class="meal-chip">Sambar — 200ml (1.5 katori)</span>
+        <span class="meal-chip">Dal or kootu — 150g (1 katori)</span>
+        <span class="meal-chip">Poriyal any vegetable — 100g</span>
+        <span class="meal-chip">Rasam — 100ml optional</span>
+        <span class="meal-chip">Curd or moru — 100ml</span>
+      </div>
+      <div class="meal-cal">~<span>500–550 kcal</span> · Reduce rice gradually — this is the single most impactful change</div>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="meal-head"><div class="meal-time-label">16:00 — Evening Snack</div><div class="meal-divider"></div></div>
+    <div class="meal-title">Protein Snack</div>
+    <div class="meal-body">
+      <div class="meal-items">
+        <span class="meal-chip">2 boiled eggs — 100g</span>
+        <span class="meal-chip">Or boiled black chana — 75g (½ cup cooked)</span>
+        <span class="meal-chip">Or groundnut chaat — 40g peanuts, onion, lemon</span>
+      </div>
+      <div class="meal-cal">~<span>150–200 kcal</span> · High protein suppresses hunger until dinner</div>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="meal-head"><div class="meal-time-label">19:30 — Dinner</div><div class="meal-divider"></div></div>
+    <div class="meal-title">Light Dinner — No Rice</div>
+    <div class="meal-body">
+      <div class="meal-items">
+        <span class="meal-chip">2 small chapati — 60g total (30g each)</span>
+        <span class="meal-chip">Or kambu/varagu millet — 100g cooked</span>
+        <span class="meal-chip">Keerai kootu — 150g (1 large katori)</span>
+        <span class="meal-chip">Vegetable soup — 250ml</span>
+        <span class="meal-chip">Dal — 100ml for protein</span>
+      </div>
+      <div class="meal-cal">~<span>350–400 kcal</span> · No rice at night is the single biggest fat loss intervention</div>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="meal-head"><div class="meal-time-label">21:00 — Optional</div><div class="meal-divider"></div></div>
+    <div class="meal-title">If Hungry</div>
+    <div class="meal-body">
+      <div class="meal-items">
+        <span class="meal-chip">Warm turmeric milk — 200ml</span>
+        <span class="meal-chip">Or plain buttermilk</span>
+      </div>
+      <div class="meal-cal">~<span>80 kcal</span> · Anti-inflammatory · Good for sleep and back pain</div>
+    </div>
+  </div>
+
+  <!-- AVOID -->
+  <div class="card-wrap" style="margin-top:48px;">
+    <div class="card-wrap-head">
+      <div class="card-wrap-title">Foods to Avoid</div>
+      <div class="card-wrap-sub">These are the primary obstacles</div>
+    </div>
+    <div class="avoid-row"><div class="avoid-x"><svg viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg></div><div class="avoid-body"><div class="avoid-name">Deep fried foods</div><div class="avoid-detail">Bajji, bonda, vada, murukku — limit to once a week maximum</div></div></div>
+    <div class="avoid-row"><div class="avoid-x"><svg viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg></div><div class="avoid-body"><div class="avoid-name">Sugar and cool drinks</div><div class="avoid-detail">Tea with 2+ spoons sugar, sweets, Pepsi, Coke — zero nutritional value, high calorie</div></div></div>
+    <div class="avoid-row"><div class="avoid-x"><svg viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg></div><div class="avoid-body"><div class="avoid-name">Excess white rice</div><div class="avoid-detail">Maximum 1 cup per meal. Switch to millets wherever possible.</div></div></div>
+    <div class="avoid-row"><div class="avoid-x"><svg viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg></div><div class="avoid-body"><div class="avoid-name">Late night eating</div><div class="avoid-detail">Nothing solid after 21:00. Digestion slows after sunset.</div></div></div>
+    <div class="avoid-row"><div class="avoid-x"><svg viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg></div><div class="avoid-body"><div class="avoid-name">Maida products</div><div class="avoid-detail">Parotta, white bread, biscuits — refined flour spikes blood sugar and causes fat storage</div></div></div>
+  </div>
+
+  <div class="water-card">
+    <div class="water-top">
+      <div class="water-label">Daily Water Target</div>
+      <div class="water-val">3.5 – 4 L</div>
+    </div>
+    <div class="water-bar"><div class="water-fill"></div></div>
+    <div class="water-note">Drink one full glass before every meal. Carry a bottle at all times. At 123 kg your body requires significantly more hydration than average — water also suppresses hunger and improves fat metabolism.</div>
+  </div>
+</div>
+
+<!-- ══════════════ SCHEDULE ══════════════ -->
+<div id="schedule" class="tab-panel">
+  <div class="s-label">Structure</div>
+  <h2 class="s-title">Weekly rhythm &amp;<br><em>daily routine</em></h2>
+
+  <div class="week-grid">
+    <div class="day work">
+      <div class="day-name">Mon</div>
+      <div class="day-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="5" r="2"/><path d="M10 7v6M7 9l3 4 3-4"/></svg></div>
+      <div class="day-tag">Train</div>
+    </div>
+    <div class="day work">
+      <div class="day-name">Tue</div>
+      <div class="day-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="5" r="2"/><path d="M10 7v6M7 9l3 4 3-4"/></svg></div>
+      <div class="day-tag">Train</div>
+    </div>
+    <div class="day">
+      <div class="day-name">Wed</div>
+      <div class="day-icon rest-icon"><svg viewBox="0 0 20 20"><path d="M6 10a4 4 0 108 0 4 4 0 00-8 0z"/><path d="M10 3v2M10 15v2M3 10h2M15 10h2"/></svg></div>
+      <div class="day-tag">Rest</div>
+    </div>
+    <div class="day work">
+      <div class="day-name">Thu</div>
+      <div class="day-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="5" r="2"/><path d="M10 7v6M7 9l3 4 3-4"/></svg></div>
+      <div class="day-tag">Train</div>
+    </div>
+    <div class="day work">
+      <div class="day-name">Fri</div>
+      <div class="day-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="5" r="2"/><path d="M10 7v6M7 9l3 4 3-4"/></svg></div>
+      <div class="day-tag">Train</div>
+    </div>
+    <div class="day work">
+      <div class="day-name">Sat</div>
+      <div class="day-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="5" r="2"/><path d="M10 7v6M7 9l3 4 3-4"/></svg></div>
+      <div class="day-tag">Train</div>
+    </div>
+    <div class="day">
+      <div class="day-name">Sun</div>
+      <div class="day-icon rest-icon"><svg viewBox="0 0 20 20"><path d="M6 10a4 4 0 108 0 4 4 0 00-8 0z"/><path d="M10 3v2M10 15v2M3 10h2M15 10h2"/></svg></div>
+      <div class="day-tag">Rest</div>
+    </div>
+  </div>
+
+  <div class="card-wrap" style="margin-bottom:32px;">
+    <div class="card-wrap-head">
+      <div class="card-wrap-title">Daily Structure</div>
+      <div class="card-wrap-sub">Training days</div>
+    </div>
+    <div style="padding:28px 32px;">
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">06:30</div><div class="tl-name">Wake up</div><div class="tl-detail">Warm water with lemon. 5 minutes light stretching.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">07:00 – 07:45</div><div class="tl-name">Workout</div><div class="tl-detail">Follow the current phase exercise plan.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">07:45 – 08:00</div><div class="tl-name">Cool down</div><div class="tl-detail">Stretching, shower, recovery.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">08:00</div><div class="tl-name">Breakfast</div><div class="tl-detail">Eat within 30 minutes of finishing workout.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">13:30</div><div class="tl-name">Post-lunch walk</div><div class="tl-detail">10 minutes slow walk. Lowers blood sugar spike, aids digestion.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">22:00 – 22:30</div><div class="tl-name">Sleep</div><div class="tl-detail">7–8 hours is non-negotiable for fat loss. Sleep deprivation elevates cortisol and causes fat retention.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-wrap" style="margin-bottom:32px;">
+    <div class="card-wrap-head">
+      <div class="card-wrap-title">90-Day Milestones</div>
+      <div class="card-wrap-sub">Track progress, not perfection</div>
+    </div>
+    <div style="padding:28px 32px;">
+      <div class="progress-block">
+        <div class="progress-top"><span>Phase 1 — Day 30</span><span style="color:#6BAE80;">−4 to 6 kg</span></div>
+        <div class="progress-bar"><div class="progress-fill p1" style="width:33%"></div></div>
+      </div>
+      <div class="progress-block">
+        <div class="progress-top"><span>Phase 2 — Day 60</span><span style="color:#D4AF60;">−10 to 12 kg total</span></div>
+        <div class="progress-bar"><div class="progress-fill p2" style="width:66%"></div></div>
+      </div>
+      <div class="progress-block">
+        <div class="progress-top"><span>Phase 3 — Day 90</span><span style="color:var(--gold);">−18 to 22 kg total</span></div>
+        <div class="progress-bar"><div class="progress-fill p3" style="width:100%"></div></div>
+      </div>
+      <div style="font-size:12px;color:var(--iv3);margin-top:16px;line-height:1.7;">Results vary based on consistency and diet adherence. Weigh yourself every Monday morning only — daily weigh-ins are misleading due to water weight fluctuation.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ RULES ══════════════ -->
+<div id="rules" class="tab-panel">
+  <div class="s-label">Principles</div>
+  <h2 class="s-title">The rules that<br><em>determine results</em></h2>
+
+  <div class="card-wrap" style="margin-bottom:40px;">
+    <div class="card-wrap-head">
+      <div class="card-wrap-title">The 10 Non-Negotiables</div>
+      <div class="card-wrap-sub">Violate one consistently and results stall</div>
+    </div>
+    <div style="padding:12px 28px 24px;">
+      <div class="rule-item"><div class="rule-num">1</div><div class="rule-text"><strong>Never skip breakfast.</strong> Eating in the morning activates metabolism. Skipping causes the body to conserve fat and leads to overeating later.</div></div>
+      <div class="rule-item"><div class="rule-num">2</div><div class="rule-text"><strong>No rice at dinner.</strong> Switch to millets, chapati or soup. This single change alone can result in 3–5 kg loss in the first month.</div></div>
+      <div class="rule-item"><div class="rule-num">3</div><div class="rule-text"><strong>Walk after every meal.</strong> Even 5–10 minutes. Reduces blood glucose spike by up to 30% and meaningfully improves digestion.</div></div>
+      <div class="rule-item"><div class="rule-num">4</div><div class="rule-text"><strong>One glass of water before eating.</strong> Every meal, every time. You will naturally consume 15–20% fewer calories.</div></div>
+      <div class="rule-item"><div class="rule-num">5</div><div class="rule-text"><strong>Sleep 7–8 hours.</strong> Sleep deprivation elevates cortisol, which directly causes fat retention. This is physiology, not willpower.</div></div>
+      <div class="rule-item"><div class="rule-num">6</div><div class="rule-text"><strong>No screens while eating.</strong> Distracted eating doubles calorie intake. Sit at a table, eat slowly, pay attention to the food.</div></div>
+      <div class="rule-item"><div class="rule-num">7</div><div class="rule-text"><strong>No cool drinks or packaged juice.</strong> One 350ml Pepsi = 150 empty calories with zero nutrition. Replace with neer mor, moru, or lemon water.</div></div>
+      <div class="rule-item"><div class="rule-num">8</div><div class="rule-text"><strong>Weigh yourself once per week only.</strong> Every Monday morning after the bathroom, before eating. Daily weighing is misleading.</div></div>
+      <div class="rule-item"><div class="rule-num">9</div><div class="rule-text"><strong>Back pain means switch, not stop.</strong> If an exercise hurts, replace it with another. Stopping the session entirely for minor pain is counterproductive.</div></div>
+      <div class="rule-item"><div class="rule-num">10</div><div class="rule-text"><strong>Progress photos matter more than the scale.</strong> Take a photo every two weeks. Body recomposition often does not show on the scale but is clearly visible.</div></div>
+    </div>
+  </div>
+
+  <div class="card-wrap" style="margin-bottom:40px;">
+    <div class="card-wrap-head">
+      <div class="card-wrap-title">Budget Superfoods</div>
+      <div class="card-wrap-sub">Best value nutrition in Tamil Nadu</div>
+    </div>
+    <div class="sf-row">
+      <div class="sf-icon"><svg viewBox="0 0 20 20"><path d="M10 3c-3 0-6 3-6 7s3 7 6 7 6-3 6-7-3-7-6-7z"/><line x1="10" y1="3" x2="10" y2="17"/><path d="M6 7c2 1 6 1 8 0M6 13c2-1 6-1 8 0"/></svg></div>
+      <div class="sf-body"><div class="sf-name">Ragi (Finger Millet)</div><div class="sf-detail">Best grain for weight loss. High calcium. Keeps you full for hours.</div></div>
+      <div class="sf-price">₹30–40/kg</div>
+    </div>
+    <div class="sf-row">
+      <div class="sf-icon"><svg viewBox="0 0 20 20"><ellipse cx="10" cy="12" rx="6" ry="5"/><path d="M10 7c0-2 2-4 4-4"/></svg></div>
+      <div class="sf-body"><div class="sf-name">Eggs</div><div class="sf-detail">Cheapest complete protein. 2 eggs = 12g protein, fully bioavailable.</div></div>
+      <div class="sf-price">₹6–7 each</div>
+    </div>
+    <div class="sf-row">
+      <div class="sf-icon"><svg viewBox="0 0 20 20"><ellipse cx="10" cy="11" rx="7" ry="5"/><path d="M10 6c0-2 1-3 3-3"/></svg></div>
+      <div class="sf-body"><div class="sf-name">Groundnuts / Peanuts</div><div class="sf-detail">Healthy fats and protein combined. Very satiating per gram.</div></div>
+      <div class="sf-price">₹80–100/kg</div>
+    </div>
+    <div class="sf-row">
+      <div class="sf-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6"/><circle cx="10" cy="10" r="3"/></svg></div>
+      <div class="sf-body"><div class="sf-name">Kadala / Black Chana</div><div class="sf-detail">High protein, high fibre, low glycaemic index. Ideal for fat loss.</div></div>
+      <div class="sf-price">₹60–80/kg</div>
+    </div>
+    <div class="sf-row">
+      <div class="sf-icon"><svg viewBox="0 0 20 20"><path d="M10 3c-2 4-5 5-5 9a5 5 0 0010 0c0-4-3-5-5-9z"/></svg></div>
+      <div class="sf-body"><div class="sf-name">Keerai (Spinach / Greens)</div><div class="sf-detail">Iron, vitamins, near-zero calories. Fill your plate with it.</div></div>
+      <div class="sf-price">₹10–20 bunch</div>
+    </div>
+    <div class="sf-row">
+      <div class="sf-icon"><svg viewBox="0 0 20 20"><path d="M6 4h8l2 8H4L6 4z"/><line x1="4" y1="12" x2="16" y2="12"/><path d="M7 12v4M13 12v4"/></svg></div>
+      <div class="sf-body"><div class="sf-name">Moru / Buttermilk</div><div class="sf-detail">Probiotics, protein, cooling. Best fat-loss drink in Tamil Nadu.</div></div>
+      <div class="sf-price">Very low cost</div>
+    </div>
+  </div>
+
+  <div class="card-wrap">
+    <div class="card-wrap-head">
+      <div class="card-wrap-title">Back Pain Protocol</div>
+      <div class="card-wrap-sub">Specific guidance for your condition</div>
+    </div>
+    <div style="padding:20px 28px 24px;">
+      <div class="tip-item ok"><div class="tip-icon"><svg viewBox="0 0 18 18"><polyline points="3,9 7,13 15,5"/></svg></div><div class="tip-text">Sleep on your side with a pillow between your knees. This removes pressure from the lumbar spine.</div></div>
+      <div class="tip-item ok"><div class="tip-icon"><svg viewBox="0 0 18 18"><polyline points="3,9 7,13 15,5"/></svg></div><div class="tip-text">Glute bridges and bird-dog (Phase 2) are specifically therapeutic for lower back pain and will reduce it over 4–6 weeks.</div></div>
+      <div class="tip-item ok"><div class="tip-icon"><svg viewBox="0 0 18 18"><polyline points="3,9 7,13 15,5"/></svg></div><div class="tip-text">Losing 10 kg removes approximately 30–40 kg of cumulative force from your lumbar spine with every step. Your pain will likely resolve naturally.</div></div>
+      <div class="tip-item warn"><div class="tip-icon"><svg viewBox="0 0 18 18"><path d="M9 2l7 13H2L9 2z"/><line x1="9" y1="8" x2="9" y2="11"/><circle cx="9" cy="13.5" r=".5" fill="currentColor"/></svg></div><div class="tip-text">Avoid sit-ups, crunches, and standing toe-touches. These flex-load the spine and can worsen the condition.</div></div>
+      <div class="tip-item warn"><div class="tip-icon"><svg viewBox="0 0 18 18"><path d="M9 2l7 13H2L9 2z"/><line x1="9" y1="8" x2="9" y2="11"/><circle cx="9" cy="13.5" r=".5" fill="currentColor"/></svg></div><div class="tip-text">If back pain becomes acute, radiates into your legs, or causes numbness — stop all exercise and consult a doctor immediately.</div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-brand">LearnSomething</div>
+  <div class="foot-note">Health &amp; Fitness Chapter · Karthikeyan · Tamil Nadu</div>
+</footer>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({top: document.querySelector('.tabs-bar').offsetTop - 64, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
