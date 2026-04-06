@@ -373,16 +373,20 @@ function rollDice(){
       die.style.transform='rotate('+spin+'deg)';
       rollN.textContent=finalNum;
       // Brief pause then fire
-      setTimeout(()=>fireTransition(finalNum,die,canvas,result,idle,yBase,targetX,dSize),300);
+      setTimeout(()=>{
+        try{ fireTransition(finalNum,die,canvas,result,idle,yBase,targetX,dSize); }
+        catch(e){ die.style.display='none'; showResult(finalNum,result); }
+      },300);
     }
   }
   requestAnimationFrame(rollStep);
 }
 
 function fireTransition(num,die,canvas,result,idle,dieY,dieX,dSize){
+  const arenaEl=document.getElementById('diceArena');
+  canvas.width=arenaEl.offsetWidth||400;
+  canvas.height=arenaEl.offsetHeight||320;
   canvas.style.display='block';
-  canvas.width=canvas.offsetWidth;
-  canvas.height=canvas.offsetHeight;
   const ctx=canvas.getContext('2d');
   const fortune=FORTUNES[String(num)];
   const col=fortune[2];
@@ -424,7 +428,8 @@ function fireTransition(num,die,canvas,result,idle,dieY,dieX,dSize){
       showResult(num,result);
     }
   }
-  requestAnimationFrame(fireFrame);
+  try { requestAnimationFrame(fireFrame); }
+  catch(e) { canvas.style.display='none'; die.style.display='none'; showResult(num,result); }
 }
 
 function showResult(num,resultPane){
@@ -437,9 +442,7 @@ function showResult(num,resultPane){
   ring.style.color=f[2];
   lbl.textContent=f[0];lbl.style.color=f[2];
   qte.textContent=f[1];
-  resultPane.style.display='flex';
-  void resultPane.offsetWidth; // reflow
-  resultPane.classList.add('show');
+  resultPane.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:clamp(16px,3vw,28px);text-align:center;z-index:10;animation:resultIn .5s cubic-bezier(.16,1,.3,1)';
   const pip=document.getElementById('pip'+num);
   if(pip)pip.classList.add('rolled');
   isRolling=false;
@@ -450,7 +453,7 @@ function resetRoll(){
   const result=document.getElementById('resultPane');
   const die=document.getElementById('dieRolling');
   const canvas=document.getElementById('fireCanvas');
-  result.classList.remove('show');result.style.display='none';
+  result.style.cssText='position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:clamp(16px,3vw,28px);text-align:center;z-index:5;';
   canvas.style.display='none';die.style.display='none';
   idle.style.opacity='1';idle.style.pointerEvents='auto';
   isRolling=false;
